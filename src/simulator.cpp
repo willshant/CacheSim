@@ -4,5 +4,6 @@
 int main() {
     Cache c1 = Cache(1,1,1,1,1);
     std::cout << "Hello Easy C++ project!" << std::endl;
+    std::cout << "edit by xz"<<std::endl;
     // hey some changes
 }
