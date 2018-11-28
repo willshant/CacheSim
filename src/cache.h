@@ -16,7 +16,7 @@ public:
 	int nfetch_miss, nread_miss, nwrite_miss;
 
 	int currentTime;
-	int strategy;
+	int strategy;   // RND  or  LRU
 	// int writeScheme; // 0 means write-allocate, 1 means write-no-allocate
 	int level;
 	

@@ -4,7 +4,8 @@ class Block {
 public:
     bool valid;
     bool dirty;
-    size_t tag;
+    int lastAccessTime;
+    long tag;   // changed by zx  size_t to long
     size_t recentUseIndex;
-    Block() : valid(false), dirty(false), tag(0), recentUseIndex(0) {};
+    Block() : valid(false), dirty(false), tag(0), recentUseIndex(0) , lastAccessTime(INT_MIN){};
 };
