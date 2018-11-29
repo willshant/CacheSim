@@ -7,5 +7,5 @@ public:
     int lastAccessTime;
     long tag;   // changed by zx  size_t to long
     size_t recentUseIndex;
-    Block() : valid(false), dirty(false), tag(0), recentUseIndex(0) , lastAccessTime(INT_MIN){};
+    Block() : valid(false), dirty(false), lastAccessTime(0), tag(0), recentUseIndex(0){};
 };

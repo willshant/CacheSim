@@ -1,25 +1,25 @@
 #include <iostream>
+#include <fstream>
 #include <string>
+
 #include "simulator.h"
 
 
 int main() {
-    Cache c1 = Cache(1,1,1,1,1);
-    std::cout << "Hello Easy C++ project!" << std::endl;
-    //URL path = new URL("http://people.ee.duke.edu/~jab/ece550/homeworks/spec026.ucomp.din");
     
-    // hey some changes
-    /*
-    std::string L1 = "2 4 5 6 7";
-    std::stringstream temp;
-    temp.str (L1);  //convert string to stringstream
-    std::string configuration;
-    std::vector<std::string> L1_configuration;
-    while(std::getline(temp, configuration, ' '))
-    {
-        L1_configuration.push_back(configuration);
+    std::cout << "Hello Easy C++ project!" << std::endl;
+    // simulator cs(1, true, true, "1 32 8192 0", "", 0, 0, 0);
+    simulator cs(2, false, true, "2 64 32768 0 2 64 32768 0", "8 64 524288 1", 0, 0, 0);
+    ifstream file;
+    file.open("/Users/will/Documents/550/LAB/CacheSimulator/DineroFull.din.txt");
+    char line[10];
+    int cnt = 0;
+    while(file.getline(line, 10)){
+        cs.process(string(line));
+        if (cnt++ % 1000 == 0)
+            cout << cnt / 1000 << "k completed" << endl;
     }
-    for (std::vector<std::string>::const_iterator i = L1_configuration.begin(); i != L1_configuration.end(); ++i)
-        std::cout << *i << std::endl;
-     */
+    file.close();
+    cs.printResult();
+    
 }

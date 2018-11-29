@@ -9,8 +9,10 @@ public:
 	int blockSize;
 	int capacity;
 	int nsets;
-	vector<vector<Block>> myCache;
+	vector<vector<Block *> *> * myCache;
 	
+	// Block ** c = new Block * [nsets];
+
 	int nfetch, nread, nwrite;
 	int nfetch_hit, nread_hit, nwrite_hit;
 	int nfetch_miss, nread_miss, nwrite_miss;
@@ -33,15 +35,15 @@ public:
 		this->level = level;
 		
 		nsets = capacity / (blockSize * associativity);
-		// myCache = new cacheBlock[nsets][associativity];
 		
+		myCache = new vector<vector<Block *> *>;
 		for (int i = 0; i < nsets; i++) {
-            vector<Block> way;
+            vector<Block *> * way = new vector<Block *>;
             for(int j = 0; j < associativity; j++) {
-                way.push_back(Block());
+                way->push_back(new Block());
                 //myCache[i][j] = new cacheBlock();
 			}
-            myCache.push_back(way);
+            myCache->push_back(way);
 		}
 	}
     // ~cache();
