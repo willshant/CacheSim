@@ -10,16 +10,12 @@ public:
 	int capacity;
 	int nsets;
 	vector<vector<Block *> *> * myCache;
-	
-	// Block ** c = new Block * [nsets];
-
 	int nfetch, nread, nwrite;
 	int nfetch_hit, nread_hit, nwrite_hit;
 	int nfetch_miss, nread_miss, nwrite_miss;
 
 	int currentTime;
-	int strategy;   // RND  or  LRU
-	// int writeScheme; // 0 means write-allocate, 1 means write-no-allocate
+	int strategy;   // 0 for RND, 1 for LRU
 	int level;
 	
     // cache();

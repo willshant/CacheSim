@@ -20,16 +20,12 @@ public:
     bool L1_unified, L2_unified;
     int nlevels;
     float L1_hitTime,L2_hitTime, DRAM_accessTime;
-    int nrecords;
     simulator(int nlevels, bool L1_unified, bool L2_unified, std::string L1, std::string L2, float L1_hitTime, float L2_hitTime, float DRAM_accessTime){
         this->nlevels = nlevels;
         this->L1_unified = L1_unified;
         this->L1_hitTime = L1_hitTime;
         this->DRAM_accessTime = DRAM_accessTime;
-        this->nrecords = 0;
         if(L1_unified){
-            // 开一个 cache 类型的数组，长度只有1 给L1cache
-            //std::stringstream test("this_is_a_test_string");
             std::stringstream temp;
             temp.str (L1);  //convert string to stringstream
             std::string configuration;
@@ -42,7 +38,6 @@ public:
             int L1_B = atoi(L1_configuration[1].c_str());
             int L1_C = atoi(L1_configuration[2].c_str());
             int L1_strategy = atoi(L1_configuration[3].c_str());
-            //int L1_writeScheme = atoi(L1_configuration[4].c_str());
             L1Cache.push_back(new Cache(L1_A, L1_B, L1_C, L1_strategy, 0));  // right ??
         }else{
             std::stringstream temp;
@@ -80,7 +75,7 @@ public:
                 int L2_C = atoi(L2_configuration[2].c_str());
                 int L2_strategy = atoi(L2_configuration[3].c_str());
                 //int L1_writeScheme = atoi(L1_configuration[4].c_str());
-                L2Cache.push_back(new Cache(L2_A, L2_B, L2_C, L2_strategy, 0));
+                L2Cache.push_back(new Cache(L2_A, L2_B, L2_C, L2_strategy, 1));
             }else{
                 std::stringstream temp;
                 temp.str (L2);  //convert string to stringstream
@@ -95,17 +90,17 @@ public:
                 int L2_I_C = atoi(L2_configuration[2].c_str());
                 int L2_I_strategy = atoi(L2_configuration[3].c_str());
                 //int L1_writeScheme = atoi(L1_configuration[4].c_str());
-                int L2_D_A = atoi(L2_configuration[0].c_str());
-                int L2_D_B = atoi(L2_configuration[1].c_str());
-                int L2_D_C = atoi(L2_configuration[2].c_str());
+                int L2_D_A = atoi(L2_configuration[4].c_str());
+                int L2_D_B = atoi(L2_configuration[5].c_str());
+                int L2_D_C = atoi(L2_configuration[6].c_str());
                 int L2_D_strategy = atoi(L2_configuration[3].c_str());
-                L2Cache.push_back(new Cache(L2_I_A, L2_I_B, L2_I_C, L2_I_strategy, 0));
-                L2Cache.push_back(new Cache(L2_D_A, L2_D_B, L2_D_C, L2_D_strategy, 0));
+                L2Cache.push_back(new Cache(L2_I_A, L2_I_B, L2_I_C, L2_I_strategy, 1));
+                L2Cache.push_back(new Cache(L2_D_A, L2_D_B, L2_D_C, L2_D_strategy, 1));
             }
             this->L2_unified = L2_unified;
             this->L2_hitTime = L2_hitTime;
         }
-    };
+    }
     void process(std::string s){
         std::stringstream temp;
         temp.str (s);  //convert string to stringstream
@@ -117,8 +112,6 @@ public:
         }
         int code = atoi(ss[0].c_str());
         long address = strtol(ss[1].c_str(), NULL, 16);
-        nrecords ++;
-        // std::cout << nrecords << std::endl;
         if(code == Read){
             if(L1_unified){
                 read(address, 0, L1Cache[0]);
@@ -134,7 +127,7 @@ public:
         }else{
             fetch(address, 0, L1Cache[0]);
         }
-    };
+    }
     void fetch(long address, int level, Cache * C){
         C->nfetch++;
         long a = address / C->blockSize;
@@ -177,7 +170,7 @@ public:
             }
         }
         C->currentTime++;
-    };
+    }
     void read(long address, int level, Cache * C){
         C->nread ++;
         long a = address / C->blockSize;
@@ -252,7 +245,7 @@ public:
             }
         }
         C->currentTime++;
-    };
+    }
     void write(long address, int level, Cache * C){
         C->nwrite++;
         long a = address / C->blockSize;
@@ -337,11 +330,11 @@ public:
                 data_evicted->lastAccessTime = C->currentTime;
             }
         }
-    };
+    }
     int getRandomIndex(int size){
         int index = (int) (rand() % size);
         return index;
-    };
+    }
     int getLRUIndex(vector<Block *> * B){
         int LRU = INT_MAX;
         int index = 0;
@@ -353,7 +346,7 @@ public:
             }
         }
         return index;
-    };
+    }
     void printResult(){
         int InstrnDemandFetch = L1Cache[0]->nfetch;
         int InstrnDemandMiss = L1Cache[0]->nfetch_miss;
@@ -518,21 +511,5 @@ public:
             std::cout << "The average access time for L2 is " << accessTime_L2 << std::endl;
 
         }
-    };
-    /*
-    //static ?? const ??
-#include <time.h>
-#include <sys/time.h>
-    double get_wall_time(){
-        struct timeval time;
-        if (gettimeofday(&time,NULL)){
-            //  Handle error
-            return 0;
-        }
-        return (double)time.tv_sec + (double)time.tv_usec * .000001;
     }
-    double getCpuTime(){
-        return (double)clock() / CLOCKS_PER_SEC;
-    }
-    */
 };
