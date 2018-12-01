@@ -1,0 +1,19 @@
+----------------------------------------Cache Simulator----------------------------------------
+
+Calculating...
+
+L1 Cache
+Metrics			total		Ins		Data		Read		Write
+------------		--------	--------	--------	--------	--------
+Demand Fetches		7458670		5689551		1769119		1145629		623490
+Demand Misses		38238		155		38083		34969		3114
+Demand Miss Rate	0.0051		0.0000		0.0215		0.0305		0.0050
+
+L2 Cache
+Metrics			total		Ins		Data		Read		Write
+------------		--------	--------	--------	--------	--------
+Demand Fetches		41337		155		41182		38083		3099
+Demand Misses		4004		144		3860		3852		8
+Demand Miss Rate	0.0969		0.9290		0.0937		0.1011		0.0026
+
+It took me 9.9113 seconds.

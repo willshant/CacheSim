@@ -5,25 +5,23 @@
 
 #include "simulator.h"
 
-int main() {
-    std::cout << "Cache Simulator" << std::endl;
-    // simulator cs(1, true, true, "1 32 8192 0", "", 1, 10, 1000);
-    // simulator cs(2, false, true, "2 64 32768 0 2 64 32768 0", "8 64 524288 1", 1, 10, 1000);
-    simulator cs(2, false, false, "1 64 8192 1 4 64 16384 1", "8 64 32768 1 16 64 65536 1", 1, 10, 1000);
+int main () {
+    cout << "----------------------------------------Cache Simulator----------------------------------------" << endl << endl;
+    // Simulator cs(1, true, true, "1 32 8192 0", "");
+    // Simulator cs(2, false, true, "1 32 8192 0 2 32 8192 0", "8 32 32768 0");
+    Simulator cs(2, false, false, "1 64 8192 1 4 64 16384 1", "8 64 32768 1 16 64 65536 1");
+    clock_t t;
+    t = clock();
     ifstream file;
     file.open("/Users/will/Documents/550/LAB/CacheSimulator/DineroFull.din.txt");
     char line[10];
-    int cnt = 0;
-    clock_t t;
-    t = clock();
-    cout << "Calculating..." << endl;
-    while(file.getline(line, 10)){
+    cout << "Calculating..." << endl << endl;
+    while (file.getline(line, 10)) {
         cs.process(string(line));
-        if (cnt++ % 1000 == 0)
-            cout << cnt / 1000 + 1 << "k completed" << endl;
-    }       
+    }
+    file.close();       
     t = clock() - t;
-    cout << "It took me " << t << " clicks (" << ((float)t)/CLOCKS_PER_SEC << " seconds)" << endl;
-    file.close();
     cs.printResult();
+    cout << "It took me " << ((float)t)/CLOCKS_PER_SEC << " seconds." << endl;
+    return 0;
 }

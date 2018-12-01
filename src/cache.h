@@ -5,21 +5,19 @@ using namespace std;
 
 class Cache {
 public:
-    int associativity;
-	int blockSize;
-	int capacity;
-	int nsets;
+    size_t associativity;
+	size_t blockSize;
+	size_t capacity;
+	size_t nsets;
 	vector<vector<Block *> *> * myCache;
-	int nfetch, nread, nwrite;
-	int nfetch_hit, nread_hit, nwrite_hit;
-	int nfetch_miss, nread_miss, nwrite_miss;
+	size_t nfetch, nread, nwrite;
+	size_t nfetch_hit, nread_hit, nwrite_hit;
+	size_t nfetch_miss, nread_miss, nwrite_miss;
 
-	int currentTime;
-	int strategy;   // 0 for RND, 1 for LRU
-	int level;
+	size_t currentTime;
+	size_t strategy;   // 0 for RND, 1 for LRU
 	
-    // cache();
-	Cache (int A, int B, int C, int strategy, int level) {
+	Cache (size_t A, size_t B, size_t C, size_t strategy) {
 		associativity = A;
 		blockSize = B;
 		capacity = C;
@@ -28,19 +26,17 @@ public:
 		nfetch_miss = nread_miss = nwrite_miss = 0;
 		currentTime = 0;
 		this->strategy = strategy;
-		this->level = level;
 		
 		nsets = capacity / (blockSize * associativity);
 		
 		myCache = new vector<vector<Block *> *>;
-		for (int i = 0; i < nsets; i++) {
+		for (size_t i = 0; i < nsets; i++) {
             vector<Block *> * way = new vector<Block *>;
-            for(int j = 0; j < associativity; j++) {
+            for(size_t j = 0; j < associativity; j++) {
                 way->push_back(new Block());
-                //myCache[i][j] = new cacheBlock();
 			}
             myCache->push_back(way);
 		}
 	}
-    // ~cache();
+    // ~cache(); // need to free memory
 };
